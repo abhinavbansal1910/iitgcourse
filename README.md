@@ -40,3 +40,60 @@ flowchart TD
     B --> C[Pricing Models (Model 1, 2, 3)]
     C --> D[Bokeh Visualizations]
     C --> E[Pathway Real-time Streaming (Local Use Only)]
+
+
+🔍 Detailed Project Architecture & Workflow
+Step 1: Data Loading & Preprocessing
+Load historical parking data in CSV format.
+
+Data includes occupancy, vehicle types, queue lengths, traffic conditions, and time-based features.
+
+Filter records for specific parking lots and sort data to simulate time-series streaming.
+
+Step 2: Model Development
+Model 1: Baseline Linear Model
+Adjusts price proportionally to occupancy ratio:
+
+Price_t+1 = Price_t + alpha × (Occupancy / Capacity)
+Model 2: Demand-Based Model
+Factors in multiple demand indicators:
+
+
+Demand = alpha × (Occupancy / Capacity) + beta × QueueLength - gamma × Traffic + delta × SpecialDay + epsilon × VehicleTypeWeight
+Price_t = BasePrice × (1 + lambda × NormalizedDemand)
+Demand is normalized, and prices are bounded between 0.5× and 2× of the base price.
+
+Model 3: Competition-Aware Model
+Analyzes competitor pricing in nearby parking lots.
+
+Uses Haversine formula for distance computation.
+
+Pricing logic:
+
+If nearby lots are cheaper and availability is high, prices are reduced or rerouting is suggested.
+
+If nearby lots are expensive, prices may increase slightly but stay within defined bounds.
+
+Step 3: Visualization
+Bokeh library is used to create interactive plots showing price evolution for all models across time.
+
+Step 4: Real-Time Streaming Simulation (Pathway)
+The Pathway framework enables continuous price adjustments based on incoming data.
+
+Works only on local systems due to file system constraints in Colab.
+
+📄 Additional Documentation
+Full project report: Capstone_Project_Report.pdf
+
+Colab Notebook containing all code, models, and visualizations.
+
+Model explanations, assumptions, and formulae are included in the report.
+
+🚀 Future Enhancements
+Incorporate live traffic APIs for even more dynamic pricing.
+
+Use reinforcement learning to optimize prices over longer horizons.
+
+Expand the system to multiple cities with regional pricing differences.
+
+Deploy the system as a full cloud-based microservice with a front-end dashboard.
